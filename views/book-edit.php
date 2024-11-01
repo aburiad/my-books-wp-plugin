@@ -6,7 +6,7 @@ $books_results = $wpdb->get_row(
     $wpdb->prepare("SELECT * FROM `$table_name` WHERE id = %d", $editid),
     ARRAY_A
 );
-print_r($books_results);
+
 
 ?>
 <div class="card container">
@@ -50,7 +50,7 @@ print_r($books_results);
                 <div class="col-10">
                     <input class="form-control form-control-md" value="Upload Image" id="btnimage" type="button"/>
                     <span id="show_image">
-                        <img src="<?php echo $books_results['book_image']; ?>" style="height: 80px;width: 80px;" alt="">
+                        <img src="<?php echo $books_results['book_image']; ?>" style="height: 80px;width: 80px; object-fit: cover;" alt="">
                     </span>
                     <input type="hidden" id="book_image" name="book_image" value="<?php echo $books_results['book_image']; ?>"/>
 

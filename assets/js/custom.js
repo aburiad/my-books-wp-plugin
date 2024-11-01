@@ -29,11 +29,32 @@ jQuery(document).ready(function () {
                         cssClass: "success",
                         html: data.message
                     });
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1300)
                 }
             })
 
         }
     });
+
+    jQuery(document).on('click', '.deleteBtn', function () {
+        var book_id = jQuery(this).attr('data-id');
+        var postdata = "action=my_book_action&param=deleteBook&id=" + book_id;
+        jQuery.post(data.ajax_url, postdata, function (response) {
+            console.log(response);
+            var data = jQuery.parseJSON(response);
+            if (data.status == 1) {
+                jQuery.notifyBar({
+                    cssClass: "success",
+                    html: data.message
+                });
+                setTimeout(function () {
+                    location.reload();
+                }, 1300)
+            }
+        })
+    })
 
     // Handle image upload using wp.media library
     jQuery('#btnimage').on('click', function () {

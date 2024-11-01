@@ -203,6 +203,12 @@ function my_book_save_data()
         );
         $wpdb->update(my_book_table(), $data, array('id' => $_REQUEST['book_edit_id']));
         echo json_encode(array('status' => 1, 'message' => 'book data updated successfully'));
+
+    } elseif (isset($_REQUEST['param']) && $_REQUEST['param'] === 'deleteBook') {
+        $wpdb->delete(my_book_table(), array(
+            "id" => $_REQUEST['id']
+        ));
+        echo json_encode(array('status' => 1, 'message' => 'book data Deleted successfully'));
     }
     wp_die();
 }

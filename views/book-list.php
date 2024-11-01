@@ -33,12 +33,14 @@ $books_results = $wpdb->get_results("SELECT * FROM `$table_name`", ARRAY_A);
                         <td><?php echo $value['author']; ?></td>
                         <td><?php echo $value['about']; ?></td>
                         <td>
-                            <img src="<?php echo $value['book_image']; ?>" style="height: 80px; width: 80px; object-fit: cover;">
+                            <img src="<?php echo $value['book_image']; ?>"
+                                 style="height: 80px; width: 80px; object-fit: cover;">
                         </td>
                         <td><?php echo $value['created_at']; ?></td>
                         <td>
-                            <a href="admin.php?page=book-edit&editid=<?php echo $value['id'];?>" class="btn btn-info">Edit</a>
-                            <a href="javascript:void(0)" class="btn btn-danger">Delete</a>
+                            <a href="admin.php?page=book-edit&editid=<?php echo $value['id']; ?>" class="btn btn-info">Edit</a>
+                            <a href="javascript:void(0)" class="btn btn-danger deleteBtn"
+                               data-id="<?php echo $value['id']; ?>">Delete</a>
                         </td>
                     </tr>
                     <?php

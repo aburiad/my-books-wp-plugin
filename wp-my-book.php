@@ -25,10 +25,12 @@ if (!defined('MY_BOOKS_VERSION')) {
 }
 
 /*
- * Load my-books plugin
- * all js and css
+ * Enqueue all CSS and JavaScript files required for the My Books plugin.
  *
- * */
+ * This function loads all the necessary frontend assets for the plugin, including
+ * third-party libraries (Bootstrap, DataTables, NotifyBar) and custom styles and scripts.
+ *
+ */
 function my_books_include_assets()
 {
     wp_enqueue_style('bootstrap', MY_BOOKS_URL . 'assets/css/bootstrap.min.css', '', MY_BOOKS_VERSION, 'all');
@@ -46,3 +48,43 @@ function my_books_include_assets()
 }
 
 add_action('init', 'my_books_include_assets');
+
+/*
+ * Registers the My Books admin menu and submenus:
+ * - Main menu: "My Books" with a book icon.
+ * - Submenus: "Book List" and "Add New" pages.
+ * - Access limited to users with 'manage_options' capability.
+ */
+
+function my_book_admin_menu()
+{
+    add_menu_page('My Books', 'My Books', 'manage_options', 'my-book-list', 'my_book_list', 'dashicons-book', 30);
+    add_submenu_page('my-book-list', 'Book List', 'Book List', 'manage_options', 'my-book-list', 'my_book_list');
+    add_submenu_page('my-book-list', 'Add New', 'Add New', 'manage_options', 'add-new', 'my_book_addnew');
+}
+
+add_action('admin_menu', 'my_book_admin_menu');
+
+/*
+ * Loads the Book List page.
+ *
+ * Includes the 'book-list.php' file from the views directory
+ * to display the list of books.
+ */
+
+function my_book_list()
+{
+    require_once MY_BOOKS_DIR_PATH . 'views/book-list.php';
+}
+
+/*
+ * Loads the Add New Book page.
+ *
+ * Includes the 'add-new.php' file from the views directory
+ * to provide a form for adding new books.
+ */
+
+function my_book_addnew()
+{
+    require_once MY_BOOKS_DIR_PATH . 'views/add-new.php';
+}

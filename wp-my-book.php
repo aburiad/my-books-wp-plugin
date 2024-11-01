@@ -194,8 +194,15 @@ function my_book_save_data()
         $wpdb->insert(my_book_table(), $data);
         echo json_encode(array('status' => 1, 'message' => 'book data insert successfully'));
 
-    } elseif(isset($_REQUEST['param']) && $_REQUEST['param'] === 'editdata') {
-        echo 'Invalid request parameter';
+    } elseif (isset($_REQUEST['param']) && $_REQUEST['param'] === 'editdata') {
+        $data = array(
+            'name' => $_REQUEST['name'],
+            'author' => $_REQUEST['author'],
+            'about' => $_REQUEST['about'],
+            'book_image' => $_REQUEST['book_image']
+        );
+        $wpdb->update(my_book_table(), $data, array('id' => $_REQUEST['book_edit_id']));
+        echo json_encode(array('status' => 1, 'message' => 'book data updated successfully'));
     }
     wp_die();
 }

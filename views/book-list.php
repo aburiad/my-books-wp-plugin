@@ -37,7 +37,7 @@ $books_results = $wpdb->get_results("SELECT * FROM `$table_name`", ARRAY_A);
                         </td>
                         <td><?php echo $value['created_at']; ?></td>
                         <td>
-                            <a href="javascript:void(0)" class="btn btn-info">Edit</a>
+                            <a href="admin.php?page=book-edit&editid=<?php echo $value['id'];?>" class="btn btn-info">Edit</a>
                             <a href="javascript:void(0)" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>

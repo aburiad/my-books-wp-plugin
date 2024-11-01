@@ -88,3 +88,35 @@ function my_book_addnew()
 {
     require_once MY_BOOKS_DIR_PATH . 'views/add-new.php';
 }
+
+/*
+ * Returns the name of the My Books database table.
+ *
+ * Uses the global $wpdb object to access the database prefix,
+ * ensuring compatibility with custom table prefixes.
+ */
+
+function my_book_table()
+{
+    global $wpdb;
+    return $wpdb->prefix . "my-books";
+}
+
+function my_book_generate_table()
+{
+    global $wpdb;
+    require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+    $sql = "CREATE TABLE `".my_book_table()."` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `name` varchar(255) DEFAULT NULL,
+      `author` varchar(255) DEFAULT NULL,
+      `about` text DEFAULT NULL,
+      `book_image` text DEFAULT NULL,
+      `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+      PRIMARY KEY (`id`)
+    )";
+    dbDelta($sql);
+}
+
+register_activation_hook(__FILE__, 'my_book_generate_table');

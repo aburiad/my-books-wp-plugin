@@ -2,7 +2,7 @@
 /*
 Plugin Name: My Book
 Plugin URI: https://example.com
-Description: A simple example of creating a custom Test One.
+Description: A simple Plugin To Learn CRUD Operation using $wpdb
 text-domain: mybook
 Version: 1.0
 Author: Abu Riad

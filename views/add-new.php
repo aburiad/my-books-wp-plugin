@@ -37,7 +37,6 @@
                     <input class="form-control form-control-md" value="Upload Image" id="btnimage" type="button" />
                     <span id="show_image"></span>
                     <input type="hidden" id="book_image" name="book_image" />
-
                 </div>
             </div>
         </div>

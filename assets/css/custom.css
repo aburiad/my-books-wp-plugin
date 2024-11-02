@@ -2,12 +2,21 @@ div.dt-container select.dt-input {
     padding: 4px;
     width: 50px;
 }
-#add-new-form label.error{
+
+#add-new-form label.error {
     color: #f00;
 }
-#edit-form label.error{
+
+#edit-form label.error {
     color: #f00;
 }
-.jquery-notify-bar.top{
+
+.jquery-notify-bar.top {
     z-index: 9999999 !important;
+}
+
+#show_image img {
+    height: 80px;
+    width: 80px;
+    object-fit: cover;
 }

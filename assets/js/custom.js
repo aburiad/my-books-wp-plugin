@@ -1,6 +1,7 @@
 jQuery(document).ready(function () {
     new DataTable('#my-books-table');
 
+    // add new book form
     jQuery("#add-new-form").validate({
         submitHandler: function () {
             var postdata = "action=my_book_action&param=savedata&" + jQuery('#add-new-form').serialize();
@@ -17,6 +18,41 @@ jQuery(document).ready(function () {
         }
     });
 
+    // add author form
+    jQuery('#add-author-form').validate({
+        submitHandler: function () {
+            var postdata = "action=my_book_action&param=saveauthor&" + jQuery('#add-author-form').serialize();
+            jQuery.post(data.ajax_url, postdata, function (response) {
+                console.log(response);
+                var data = jQuery.parseJSON(response);
+                if (data.status == 1) {
+                    jQuery.notifyBar({
+                        cssClass: "success",
+                        html: data.message
+                    });
+                }
+            })
+        }
+    })
+
+    // add author form
+    jQuery('#edit-author-form').validate({
+        submitHandler: function () {
+            var postdata = "action=my_book_action&param=editauthor&" + jQuery('#edit-author-form').serialize();
+            jQuery.post(data.ajax_url, postdata, function (response) {
+                console.log(response);
+                var data = jQuery.parseJSON(response);
+                if (data.status == 1) {
+                    jQuery.notifyBar({
+                        cssClass: "success",
+                        html: data.message
+                    });
+                }
+            })
+        }
+    })
+
+
     jQuery('#edit-form').validate({
         submitHandler: function () {
             var postdata = "action=my_book_action&param=editdata&" + jQuery('#edit-form').serialize();
@@ -28,9 +64,9 @@ jQuery(document).ready(function () {
                         cssClass: "success",
                         html: data.message
                     });
-                    // setTimeout(function () {
-                    //     location.reload();
-                    // }, 1300)
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1300)
                 }
             })
 

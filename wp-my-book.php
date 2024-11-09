@@ -33,7 +33,7 @@ if (!defined('MY_BOOKS_VERSION')) {
  */
 function my_books_include_assets()
 {
-    $page_includes = array('my-book-list', 'add-new', 'author-add', 'author-remove', 'student-add', 'student-remove', 'course-track', 'book-edit');
+    $page_includes = array('my-book-list', 'add-new', 'author-add', 'author-remove', 'student-add', 'student-remove', 'course-track', 'book-edit','author-edit');
     $current_page = $_GET['page'];
 
     if (in_array($current_page, $page_includes)) {
@@ -74,6 +74,7 @@ function my_book_admin_menu()
     add_submenu_page('my-book-list', 'Manage Student', 'Manage Student', 'manage_options', 'student-remove', 'my_student_remove');
     add_submenu_page('my-book-list', 'Course Tracker', 'Course Tracker', 'manage_options', 'course-track', 'my_course_track');
     add_submenu_page('my-book-list', '', '', 'manage_options', 'book-edit', 'book_edit');
+    add_submenu_page('my-book-list', 'Edit Author', '', 'manage_options', 'author-edit', 'author_edit');
 }
 
 add_action('admin_menu', 'my_book_admin_menu');
@@ -117,6 +118,11 @@ function book_edit()
 function my_author_add()
 {
     require_once MY_BOOKS_DIR_PATH . 'views/book-author.php';
+}
+
+function author_edit()
+{
+    require_once MY_BOOKS_DIR_PATH . 'views/book-author-edit.php';
 }
 
 function my_author_remove()
@@ -294,6 +300,22 @@ function my_book_save_data()
             "id" => $_REQUEST['id']
         ));
         echo json_encode(array('status' => 1, 'message' => 'book data Deleted successfully'));
+    } else if (isset($_REQUEST['param']) && $_REQUEST['param'] === 'saveauthor') {
+        $data = array(
+            'name' => $_REQUEST['name'],
+            'fb_link' => $_REQUEST['fb_link'],
+            'about' => $_REQUEST['about'],
+        );
+        $wpdb->insert(my_author_table(), $data);
+        echo json_encode(array('status' => 1, 'message' => 'Author data insert successfully'));
+    }else if(isset($_REQUEST['param']) && $_REQUEST['param'] === 'editauthor'){
+        $data = array(
+            'name' => $_REQUEST['name'],
+            'fb_link' => $_REQUEST['fb_link'],
+            'about' => $_REQUEST['about'],
+        );
+        $wpdb->update(my_author_table(), $data, array('id' => $_REQUEST['author_edit_id']));
+        echo json_encode(array('status' => 1, 'message' => 'Author data updated successfully'));
     }
     wp_die();
 }

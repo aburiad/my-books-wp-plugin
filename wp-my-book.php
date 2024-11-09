@@ -33,22 +33,25 @@ if (!defined('MY_BOOKS_VERSION')) {
  */
 function my_books_include_assets()
 {
+    $page_includes = array('my-book-list', 'add-new', 'author-add', 'author-remove', 'student-add', 'student-remove', 'course-track', 'book-edit');
+    $current_page = $_GET['page'];
 
-    wp_enqueue_style('bootstrap', MY_BOOKS_URL . 'assets/css/bootstrap.min.css', '', MY_BOOKS_VERSION, 'all');
-    wp_enqueue_style('datatables', MY_BOOKS_URL . 'assets/css/dataTables.dataTables.min.css', '', MY_BOOKS_VERSION, 'all');
-    wp_enqueue_style('notifybar', MY_BOOKS_URL . 'assets/css/jquery.notifyBar.css', '', MY_BOOKS_VERSION, 'all');
-    wp_enqueue_style('custom', MY_BOOKS_URL . 'assets/css/custom.css', '', MY_BOOKS_VERSION, 'all');
-    wp_enqueue_media();
-    wp_enqueue_script('jquery');
-    wp_enqueue_script('bootstrap', MY_BOOKS_URL . 'assets/js/bootstrap.bundle.min.js', '', MY_BOOKS_VERSION, true);
-    wp_enqueue_script('validate', MY_BOOKS_URL . 'assets/js/jquery.validate.min.js', '', MY_BOOKS_VERSION, true);
-    wp_enqueue_script('dataTables', MY_BOOKS_URL . 'assets/js/dataTables.min.js', '', MY_BOOKS_VERSION, true);
-    wp_enqueue_script('notifyBar', MY_BOOKS_URL . 'assets/js/jquery.notifyBar.js', '', MY_BOOKS_VERSION, true);
-    wp_enqueue_script('custom', MY_BOOKS_URL . 'assets/js/custom.js', '', MY_BOOKS_VERSION, true);
+    if (in_array($current_page, $page_includes)) {
+        wp_enqueue_style('bootstrap', MY_BOOKS_URL . 'assets/css/bootstrap.min.css', '', MY_BOOKS_VERSION, 'all');
+        wp_enqueue_style('datatables', MY_BOOKS_URL . 'assets/css/dataTables.dataTables.min.css', '', MY_BOOKS_VERSION, 'all');
+        wp_enqueue_style('notifybar', MY_BOOKS_URL . 'assets/css/jquery.notifyBar.css', '', MY_BOOKS_VERSION, 'all');
+        wp_enqueue_style('custom', MY_BOOKS_URL . 'assets/css/custom.css', '', MY_BOOKS_VERSION, 'all');
+        wp_enqueue_media();
+        wp_enqueue_script('jquery');
+        wp_enqueue_script('bootstrap', MY_BOOKS_URL . 'assets/js/bootstrap.bundle.min.js', '', MY_BOOKS_VERSION, true);
+        wp_enqueue_script('validate', MY_BOOKS_URL . 'assets/js/jquery.validate.min.js', '', MY_BOOKS_VERSION, true);
+        wp_enqueue_script('dataTables', MY_BOOKS_URL . 'assets/js/dataTables.min.js', '', MY_BOOKS_VERSION, true);
+        wp_enqueue_script('notifyBar', MY_BOOKS_URL . 'assets/js/jquery.notifyBar.js', '', MY_BOOKS_VERSION, true);
+        wp_enqueue_script('custom', MY_BOOKS_URL . 'assets/js/custom.js', '', MY_BOOKS_VERSION, true);
 
-    $data = array('ajax_url' => admin_url('admin-ajax.php'));
-    wp_localize_script('custom', 'data', $data);
-
+        $data = array('ajax_url' => admin_url('admin-ajax.php'));
+        wp_localize_script('custom', 'data', $data);
+    }
 }
 
 add_action('init', 'my_books_include_assets');
@@ -64,7 +67,12 @@ function my_book_admin_menu()
 {
     add_menu_page('My Books', 'My Books', 'manage_options', 'my-book-list', 'my_book_list', 'dashicons-book', 30);
     add_submenu_page('my-book-list', 'Book List', 'Book List', 'manage_options', 'my-book-list', 'my_book_list');
-    add_submenu_page('my-book-list', 'Add New', 'Add New', 'manage_options', 'add-new', 'my_book_addnew');
+    add_submenu_page('my-book-list', 'Add New Book', 'Add New Book', 'manage_options', 'add-new', 'my_book_addnew');
+    add_submenu_page('my-book-list', 'Add New Author', 'Add New Author', 'manage_options', 'author-add', 'my_author_add');
+    add_submenu_page('my-book-list', 'Manage Author', 'Manage Author', 'manage_options', 'author-remove', 'my_author_remove');
+    add_submenu_page('my-book-list', 'Add New Student', 'Add New Student', 'manage_options', 'student-add', 'my_student_add');
+    add_submenu_page('my-book-list', 'Manage Student', 'Manage Student', 'manage_options', 'student-remove', 'my_student_remove');
+    add_submenu_page('my-book-list', 'Course Tracker', 'Course Tracker', 'manage_options', 'course-track', 'my_course_track');
     add_submenu_page('my-book-list', '', '', 'manage_options', 'book-edit', 'book_edit');
 }
 
@@ -106,6 +114,32 @@ function book_edit()
     require_once MY_BOOKS_DIR_PATH . 'views/book-edit.php';
 }
 
+function my_author_add()
+{
+    require_once MY_BOOKS_DIR_PATH . 'views/book-author.php';
+}
+
+function my_author_remove()
+{
+    require_once MY_BOOKS_DIR_PATH . 'views/book-author-remove.php';
+}
+
+function my_student_add()
+{
+    require_once MY_BOOKS_DIR_PATH . 'views/book-student-add.php';
+}
+
+function my_student_remove()
+{
+    require_once MY_BOOKS_DIR_PATH . 'views/book-student-remove.php';
+}
+
+function my_course_track()
+{
+    require_once MY_BOOKS_DIR_PATH . 'views/book-course-track.php';
+}
+
+
 /**
  * Returns the name of the My Books database table.
  *
@@ -117,6 +151,24 @@ function my_book_table()
 {
     global $wpdb;
     return $wpdb->prefix . "my-books";
+}
+
+function my_author_table()
+{
+    global $wpdb;
+    return $wpdb->prefix . "my-author";
+}
+
+function my_students_table()
+{
+    global $wpdb;
+    return $wpdb->prefix . "my-students";
+}
+
+function my_enroll_table()
+{
+    global $wpdb;
+    return $wpdb->prefix . "my-enroll";
 }
 
 /**
@@ -148,6 +200,36 @@ function my_book_generate_table()
       PRIMARY KEY (`id`)
     )";
     dbDelta($sql);
+
+    $author_sql = "CREATE TABLE `" . my_author_table() . "` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `name` varchar(255) DEFAULT NULL,
+      `fb_link` text DEFAULT NULL,
+      `about` text DEFAULT NULL,
+      `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+      PRIMARY KEY (`id`)
+    )";
+    dbDelta($author_sql);
+
+    $students_sql = "CREATE TABLE `" . my_students_table() . "` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `name` varchar(255) DEFAULT NULL,
+      `email` text DEFAULT NULL,
+      `user_loggin_id` int(11) DEFAULT NULL,
+     `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+      PRIMARY KEY (`id`)
+    ) ";
+    dbDelta($students_sql);
+
+    $enroll_sql = "CREATE TABLE `" . my_enroll_table() . "` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `student_id` int(11) NOT NULL,
+      `book_id` int(11) NOT NULL,
+      `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+      PRIMARY KEY (`id`)
+    )";
+    dbDelta($enroll_sql);
+
 }
 
 register_activation_hook(__FILE__, 'my_book_generate_table');
@@ -167,6 +249,9 @@ function my_book_drop_table()
     global $wpdb;
     $table_name = my_book_table();
     $wpdb->query("DROP TABLE IF EXISTS `$table_name`");
+    $wpdb->query("DROP TABLE IF EXISTS `" . my_author_table() . "`");
+    $wpdb->query("DROP TABLE IF EXISTS `" . my_students_table() . "`");
+    $wpdb->query("DROP TABLE IF EXISTS `" . my_enroll_table() . "`");
 }
 
 register_deactivation_hook(__FILE__, 'my_book_drop_table');

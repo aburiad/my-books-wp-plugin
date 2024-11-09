@@ -14,7 +14,6 @@ jQuery(document).ready(function () {
                     });
                 }
             })
-
         }
     });
 
@@ -29,9 +28,9 @@ jQuery(document).ready(function () {
                         cssClass: "success",
                         html: data.message
                     });
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1300)
+                    // setTimeout(function () {
+                    //     location.reload();
+                    // }, 1300)
                 }
             })
 

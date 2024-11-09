@@ -33,7 +33,7 @@ if (!defined('MY_BOOKS_VERSION')) {
  */
 function my_books_include_assets()
 {
-    $page_includes = array('my-book-list', 'add-new', 'author-add', 'author-remove', 'student-add', 'student-remove', 'course-track', 'book-edit','author-edit');
+    $page_includes = array('my-book-list', 'add-new', 'author-add', 'author-remove', 'student-add', 'student-remove', 'course-track', 'book-edit', 'author-edit');
     $current_page = $_GET['page'];
 
     if (in_array($current_page, $page_includes)) {
@@ -236,6 +236,10 @@ function my_book_generate_table()
     )";
     dbDelta($enroll_sql);
 
+    // user role regestration
+    add_role('wp_book_user_key', 'My Book User', array(
+        'read' => true,
+    ));
 }
 
 register_activation_hook(__FILE__, 'my_book_generate_table');
@@ -258,6 +262,11 @@ function my_book_drop_table()
     $wpdb->query("DROP TABLE IF EXISTS `" . my_author_table() . "`");
     $wpdb->query("DROP TABLE IF EXISTS `" . my_students_table() . "`");
     $wpdb->query("DROP TABLE IF EXISTS `" . my_enroll_table() . "`");
+
+    // remove role
+    if (get_role('wp_book_user_key')) {
+        remove_role('wp_book_user_key');
+    }
 }
 
 register_deactivation_hook(__FILE__, 'my_book_drop_table');
@@ -308,7 +317,7 @@ function my_book_save_data()
         );
         $wpdb->insert(my_author_table(), $data);
         echo json_encode(array('status' => 1, 'message' => 'Author data insert successfully'));
-    }else if(isset($_REQUEST['param']) && $_REQUEST['param'] === 'editauthor'){
+    } else if (isset($_REQUEST['param']) && $_REQUEST['param'] === 'editauthor') {
         $data = array(
             'name' => $_REQUEST['name'],
             'fb_link' => $_REQUEST['fb_link'],
@@ -316,6 +325,17 @@ function my_book_save_data()
         );
         $wpdb->update(my_author_table(), $data, array('id' => $_REQUEST['author_edit_id']));
         echo json_encode(array('status' => 1, 'message' => 'Author data updated successfully'));
+    } else if (isset($_REQUEST['param']) && $_REQUEST['param'] === 'savestudent') {
+        $student_id = $user_id = wp_create_user($_REQUEST['username'], $_REQUEST['password'], $_REQUEST['email']);
+        $user = new WP_User($student_id);
+        $user->set_role("wp_book_user_key");
+        $data = array(
+            'name' => $_REQUEST['name'],
+            'email' => $_REQUEST['email'],
+            'user_loggin_id' => $user_id,
+        );
+        $wpdb->insert(my_students_table(), $data);
+        echo json_encode(array('status' => 1, 'message' => 'Student data insert successfully'));
     }
     wp_die();
 }

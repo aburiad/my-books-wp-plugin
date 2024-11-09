@@ -18,6 +18,23 @@ jQuery(document).ready(function () {
         }
     });
 
+    // add Student form
+    jQuery('#add-student-form').validate({
+        submitHandler: function () {
+            var postdata = "action=my_book_action&param=savestudent&" + jQuery('#add-student-form').serialize();
+            jQuery.post(data.ajax_url, postdata, function (response) {
+                console.log(response);
+                var data = jQuery.parseJSON(response);
+                if (data.status == 1) {
+                    jQuery.notifyBar({
+                        cssClass: "success",
+                        html: data.message
+                    });
+                }
+            })
+        }
+    })
+
     // add author form
     jQuery('#add-author-form').validate({
         submitHandler: function () {
@@ -35,7 +52,7 @@ jQuery(document).ready(function () {
         }
     })
 
-    // add author form
+    // edit author form
     jQuery('#edit-author-form').validate({
         submitHandler: function () {
             var postdata = "action=my_book_action&param=editauthor&" + jQuery('#edit-author-form').serialize();

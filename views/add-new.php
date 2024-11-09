@@ -1,6 +1,6 @@
 <div class="card container">
     <div class="alert alert-primary" role="alert">
-        Add New
+        Add New Book
     </div>
     <form action="" method="post" id="add-new-form" enctype="multipart/form-data">
         <div class="mb-3">

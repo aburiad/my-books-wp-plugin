@@ -34,12 +34,12 @@ if (!defined('MY_BOOKS_VERSION')) {
 function my_books_include_assets()
 {
     $slug = '';
-    $page_includes = array('frontendpage','my-book-list', 'add-new', 'author-add', 'author-remove', 'student-add', 'student-remove', 'course-track', 'book-edit', 'author-edit');
+    $page_includes = array('frontendpage', 'my-book-list', 'add-new', 'author-add', 'author-remove', 'student-add', 'student-remove', 'course-track', 'book-edit', 'author-edit');
     $current_page = isset($_GET['page']) ? $_GET['page'] : '';
 
-    if(empty($current_page)){
+    if (empty($current_page)) {
         $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        if(preg_match("/my_book/",$actual_link)){
+        if (preg_match("/my_book/", $actual_link)) {
             $current_page = 'frontendpage';
         }
     }
@@ -369,7 +369,7 @@ function my_book_save_data()
 
 function book_page_function()
 {
-    MY_BOOKS_DIR_PATH . 'views/frontend-booklist.php';
+    require_once MY_BOOKS_DIR_PATH . 'views/frontend-booklist.php';
 }
 
 add_shortcode('book_page', 'book_page_function');
@@ -385,3 +385,5 @@ function custom_page_template($page_template)
 }
 
 add_filter('page_template', 'custom_page_template');
+
+

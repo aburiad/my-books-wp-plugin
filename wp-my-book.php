@@ -366,3 +366,15 @@ function book_page_function()
 }
 
 add_shortcode('book_page', 'book_page_function');
+
+function custom_page_template($page_template)
+{
+    global $post;
+    $page_slug = $post->post_name;
+    if ("my_book" == $page_slug) {
+        $page_template = MY_BOOKS_DIR_PATH . 'views/frontendbook.php';
+    }
+    return $page_template;
+}
+
+add_filter('page_template', 'custom_page_template');

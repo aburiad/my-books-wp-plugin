@@ -16,7 +16,6 @@ $books_results = $wpdb->get_results("SELECT * FROM `" . my_students_table() . "`
                 <th>Email</th>
                 <th>User Name</th>
                 <th>Created at</th>
-                <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -33,12 +32,6 @@ $books_results = $wpdb->get_results("SELECT * FROM `" . my_students_table() . "`
                         <td><?php echo $value['email']; ?></td>
                         <td><?php echo $userdetails->user_login; ?></td>
                         <td><?php echo $value['created_at']; ?></td>
-                        <td>
-                            <a href="admin.php?page=author-edit&editid=<?php echo $value['id']; ?>"
-                               class="btn btn-info">Edit</a>
-                            <a href="javascript:void(0)" class="btn btn-danger deleteBtn"
-                               data-id="<?php echo $value['id']; ?>">Delete</a>
-                        </td>
                     </tr>
                     <?php
                 }
@@ -54,7 +47,6 @@ $books_results = $wpdb->get_results("SELECT * FROM `" . my_students_table() . "`
                 <th>Email</th>
                 <th>User Name</th>
                 <th>Created at</th>
-                <th>Action</th>
             </tr>
             </tfoot>
         </table>

@@ -33,8 +33,9 @@ if (!defined('MY_BOOKS_VERSION')) {
  */
 function my_books_include_assets()
 {
+
     $page_includes = array('my-book-list', 'add-new', 'author-add', 'author-remove', 'student-add', 'student-remove', 'course-track', 'book-edit', 'author-edit');
-    $current_page = $_GET['page'];
+    $current_page = isset($_GET['page']) ? $_GET['page'] : '';
 
     if (in_array($current_page, $page_includes)) {
         wp_enqueue_style('bootstrap', MY_BOOKS_URL . 'assets/css/bootstrap.min.css', '', MY_BOOKS_VERSION, 'all');
@@ -240,6 +241,19 @@ function my_book_generate_table()
     add_role('wp_book_user_key', 'My Book User', array(
         'read' => true,
     ));
+
+    // Create post object
+    $my_post = array(
+        'post_title' => "Book Page",
+        'post_content' => "[book_page]",
+        'post_status' => 'publish',
+        'post_type' => 'page',
+        'post_name' => 'my_book'
+    );
+
+    // Insert the post into the database
+    $book_page_id = wp_insert_post($my_post);
+    add_option('my_book_page_id', $book_page_id);
 }
 
 register_activation_hook(__FILE__, 'my_book_generate_table');
@@ -266,6 +280,12 @@ function my_book_drop_table()
     // remove role
     if (get_role('wp_book_user_key')) {
         remove_role('wp_book_user_key');
+    }
+
+    if (!empty(get_option('my_book_page_id'))) {
+        $pageId = get_option('my_book_page_id');
+        wp_delete_post($pageId, true);
+        delete_option('my_book_page_id');
     }
 }
 
@@ -339,3 +359,10 @@ function my_book_save_data()
     }
     wp_die();
 }
+
+function book_page_function()
+{
+    echo "this is book page";
+}
+
+add_shortcode('book_page', 'book_page_function');

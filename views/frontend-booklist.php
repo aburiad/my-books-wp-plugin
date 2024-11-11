@@ -12,20 +12,17 @@ foreach ($books_results as $key => $value) {
         <img src="<?php echo $value['book_image'] ?>" alt="no image found" style="width: 100%">
         <h3><?php echo $value['author']; ?></h3>
         <p><?php echo $value['name']; ?></p>
-        <a class="btn btn-success" href="<?php if($user_ID > 0){echo "javascript:void"; }else{echo wp_login_url();}?>" type="button">
-            <?php
-            if ($user_ID > 0) {
-                ?>
-                Enroll
-                <?php
-            } else {
-                ?>
-                Login to Enroll
-                <?php
-            }
+        <?php
+        if ($user_ID > 0) {
             ?>
-
-        </a>
+            <a class="btn btn-success enroll-button" href="<?php echo "javascript:void"; ?>">Enroll</a>
+            <?php
+        } else {
+            ?>
+            <a class="btn btn-success" href="<?php echo wp_login_url(); ?>">Login to Enroll</a>
+            <?php
+        }
+        ?>
     </div>
     <?php
 }

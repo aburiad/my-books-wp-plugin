@@ -108,6 +108,12 @@ jQuery(document).ready(function () {
         })
     })
 
+    // login button
+
+    jQuery('.enroll-button').on('click', function () {
+        console.log('enroll sucessfully');
+    })
+
     // Handle image upload using wp.media library
     jQuery('#btnimage').on('click', function () {
         var images = wp.media({

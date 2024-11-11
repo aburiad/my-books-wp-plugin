@@ -414,6 +414,8 @@ function book_login_user($redirect_to, $request, $user)
 add_filter('login_redirect', 'book_login_user', 10, 3);
 function book_logout_user()
 {
+    wp_redirect(site_url() . '/my_book');
+    exit();
 }
 
 add_filter('wp_logout', 'book_logout_user');

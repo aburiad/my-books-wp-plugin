@@ -387,3 +387,33 @@ function custom_page_template($page_template)
 add_filter('page_template', 'custom_page_template');
 
 
+//function get_author_details($author_id)
+//{
+//    global $wpdb;
+//
+//    $author_details = $wpdb->row(
+//        $wpdb->prepare("SELECT * FROM `" . my_author_table() . "` WHERE ID = %d", $author_id), ARRAY_A
+//    );
+//
+//    return $author_details;
+//}
+
+function book_login_user($redirect_to, $request, $user)
+{
+    global $user;
+    if (isset($user->roles) && is_array($user->roles)) {
+        if (in_array('wp_book_user_key', $user->roles)) {
+            return $redirect_to = site_url() . '/my_book';
+        } else {
+            return $redirect_to;
+        }
+    }
+
+}
+
+add_filter('login_redirect', 'book_login_user', 10, 3);
+function book_logout_user()
+{
+}
+
+add_filter('wp_logout', 'book_logout_user');

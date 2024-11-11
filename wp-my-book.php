@@ -363,6 +363,32 @@ function my_book_save_data()
         );
         $wpdb->insert(my_students_table(), $data);
         echo json_encode(array('status' => 1, 'message' => 'Student data insert successfully'));
+    } else if (isset($_REQUEST['param']) && $_REQUEST['param'] === 'addenroll') {
+
+        // Check if the user is logged in and data is provided
+        if (!is_user_logged_in() || empty($_POST['id'])) {
+            echo json_encode(['status' => 0, 'message' => 'Invalid request']);
+            wp_die();
+        }
+
+        // Retrieve and sanitize data
+        $user_id = get_current_user_id();
+        $book_id = intval($_POST['id']);
+
+        // Insert into the enrollment table
+        $data = [
+            'student_id' => $user_id,
+            'book_id' => $book_id,
+        ];
+
+        $result = $wpdb->insert(my_enroll_table(), $data);
+
+        if ($result) {
+            echo json_encode(['status' => 1, 'message' => 'Enrolled successfully']);
+        } else {
+            echo json_encode(['status' => 0, 'message' => 'Failed to enroll']);
+        }
+        exit;
     }
     wp_die();
 }

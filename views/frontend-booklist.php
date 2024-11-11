@@ -15,7 +15,9 @@ foreach ($books_results as $key => $value) {
         <?php
         if ($user_ID > 0) {
             ?>
-            <a class="btn btn-success enroll-button" href="<?php echo "javascript:void"; ?>">Enroll</a>
+            <a class="btn btn-success enroll-button" data-book-id="<?php echo $value['id']; ?>"
+               href="<?php echo "javascript:void"; ?>">Enroll</a>
+
             <?php
         } else {
             ?>

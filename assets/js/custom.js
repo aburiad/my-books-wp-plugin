@@ -110,30 +110,28 @@ jQuery(document).ready(function () {
 
     // login button
 
-    jQuery(document).ready(function (jQuery) {
-        jQuery('.enroll-button').on('click', function () {
-            // Get the book ID from the button attribute
-            var book_id = jQuery(this).attr('data-book-id');
+    jQuery('.enroll-button').on('click', function () {
+        // Get the book ID from the button attribute
+        var book_id = jQuery(this).attr('data-book-id');
 
-            // Prepare the AJAX data as an object
-            var postdata = {
-                action: 'my_book_action',
-                param: 'addenroll',
-                id: book_id
-            };
+        // Prepare the AJAX data as an object
+        var postdata = {
+            action: 'my_book_action',
+            param: 'addenroll',
+            id: book_id
+        };
 
-            // Perform the AJAX request
-            jQuery.post(data.ajax_url, postdata, function (response) {
-                // Parse the response if it's not automatically parsed
-                var responseData = typeof response === 'object' ? response : jQuery.parseJSON(response);
+        // Perform the AJAX request
+        jQuery.post(data.ajax_url, postdata, function (response) {
+            // Parse the response if it's not automatically parsed
+            var responseData = typeof response === 'object' ? response : jQuery.parseJSON(response);
 
-                if (responseData.status === 1) {
-                    jQuery.notifyBar({
-                        cssClass: "success",
-                        html: responseData.message
-                    });
-                }
-            });
+            if (responseData.status === 1) {
+                jQuery.notifyBar({
+                    cssClass: "success",
+                    html: responseData.message
+                });
+            }
         });
     });
 
